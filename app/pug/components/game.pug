@@ -1,0 +1,23 @@
+-
+    var arr = [
+        ['а', 'б', 'в', 'г', 'д'], 
+        ['е', 'ё', 'ж', 'з', 'и'], 
+        ['й', 'к', 'л', 'м', 'н'], 
+        ['о', 'п', 'р', 'с', 'т'], 
+        ['у', 'ф', 'х', 0, 'ч'], 
+    ]
+
+    //- var arr = [
+    //-     'f'
+    //- ]
+
+.field#game
+    each subArr in arr 
+        .field__row 
+            each item in subArr 
+                - var addClass= item === 0 ? 'field__item--empty' : ''
+                .field__item(class=addClass)
+                    span !{item}
+                    svg.borders 
+                        rect(x="0", y="0", height="2", width="100%")
+                        rect(x="0", y="100%", height="2", width="100%")

@@ -1,0 +1,11 @@
+extends ./components/_layout.pug
+
+block variables
+  -
+    var title = 'Главная страница'
+    var description = 'Главная страница'
+    var index = true
+
+block content 
+    .field-wrap 
+        include ./components/game.pug
