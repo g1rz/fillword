@@ -24,8 +24,8 @@ $field.onmousedown = function(e) {
 
 
     function move(e) {
-        $target = e.target;
-        console.log(e.path);
+        $target = e.composedPath()[1];//e.target;
+        // console.log(e.composedPath()[1]);
 
         if ($target.classList.contains('field__item--empty')) {
             document.onmousemove = null;
@@ -35,7 +35,7 @@ $field.onmousedown = function(e) {
         }
     
         if ($target.classList.contains('field__item') && !$target.classList.contains('field__item--active')) {
-            word += $target.textContent ;
+            word += $target.textContent.trim() || $target.innerText.trim();
         }
     
         if ($target.classList.contains('field__item')) {

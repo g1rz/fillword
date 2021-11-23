@@ -60,8 +60,34 @@
       left: -1px;
       right: -1px;
       bottom: -1px; }
+      .field__item .borders__border {
+        position: absolute;
+        background-color: #000; }
+        .field__item .borders__border--top {
+          width: 100%;
+          height: 2px;
+          top: 0;
+          left: 0; }
+        .field__item .borders__border--right {
+          width: 2px;
+          height: 100%;
+          top: 0;
+          right: 0; }
+        .field__item .borders__border--bottom {
+          width: 100%;
+          height: 2px;
+          left: 0;
+          bottom: 0; }
+        .field__item .borders__border--left {
+          width: 2px;
+          height: 100%;
+          top: 0;
+          left: 0; }
     .field__item--active {
       background: green; }
+      .field__item--active .borders__border {
+        background: red;
+        z-index: 100; }
     .field__item--empty {
       font-size: 0;
       background-color: gray; }

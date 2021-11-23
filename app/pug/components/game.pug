@@ -18,6 +18,11 @@
                 - var addClass= item === 0 ? 'field__item--empty' : ''
                 .field__item(class=addClass)
                     span !{item}
-                    svg.borders 
-                        rect(x="0", y="0", height="2", width="100%")
-                        rect(x="0", y="100%", height="2", width="100%")
+                    //- svg.borders 
+                    //-     rect(x="0", y="0", height="2", width="100%")
+                    //-     rect(x="0", y="100%", height="2", width="100%")
+                    .borders 
+                        span.borders__border.borders__border--top
+                        span.borders__border.borders__border--right 
+                        span.borders__border.borders__border--bottom 
+                        span.borders__border.borders__border--left
