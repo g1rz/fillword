@@ -56,7 +56,8 @@
     border-bottom: none;
     font-family: sans-serif;
     font-size: 20px;
-    font-weight: 600; }
+    font-weight: 600;
+    background-color: #fff; }
     .field__item .borders {
       position: absolute;
       width: calc(100% + 2px);
@@ -67,7 +68,8 @@
       bottom: -1px; }
       .field__item .borders__border {
         position: absolute;
-        background-color: #000; }
+        background-color: #000;
+        z-index: 50; }
         .field__item .borders__border--top {
           width: 100%;
           height: 2px;
@@ -96,6 +98,17 @@
     .field__item--empty {
       font-size: 0;
       background-color: gray; }
+      .field__item--empty .borders__border {
+        background: gray;
+        z-index: 40; }
+    .field__item.rm-top .borders__border--top {
+      background-color: green; }
+    .field__item.rm-bottom .borders__border--bottom {
+      background-color: green; }
+    .field__item.rm-left .borders__border--left {
+      background-color: green; }
+    .field__item.rm-right .borders__border--right {
+      background-color: green; }
 
 .test {
   width: 40px;

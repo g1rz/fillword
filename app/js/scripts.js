@@ -1,4 +1,5 @@
 const $field = document.getElementById('game');
+const $fieldItems = document.querySelectorAll('.field__item');
 
 
 $field.onmousedown = function(e) {
@@ -6,6 +7,22 @@ $field.onmousedown = function(e) {
     console.log('mousedown');
 
     let word = '';
+
+    $fieldItems.forEach(function($item) {
+        $item.onmouseover = function(e) {
+            console.log('mouseovser - ', closestEdge(e, this));
+            // console.log(this);
+            // this.classList.add('field__item--rb');
+
+            removeBorder(e, this);
+        };
+        
+        $item.onmouseout = function(e) {
+            console.log('mouseout - ', closestEdge(e, this));
+            // console.log(this);
+            removeBorder(e, this);
+        };
+    });
 
     move(e);
     document.onmousemove = function(e) {
@@ -20,6 +37,18 @@ $field.onmousedown = function(e) {
         console.log('word - ', word);
 
         clearFieldFromActive();
+
+        $fieldItems.forEach(function($item) {
+
+            $item.onmouseover = null;
+            
+            $item.onmouseout = null;
+
+            $item.classList.remove('rm-top');
+            $item.classList.remove('rm-bottom');
+            $item.classList.remove('rm-left');
+            $item.classList.remove('rm-right');
+        });
     };
 
 
@@ -55,6 +84,13 @@ $field.onmousedown = function(e) {
     
 }
 
+function removeBorder(event, element) {
+    const side = closestEdge(event, element);
+
+    element.classList.add('rm-' + side);
+}
+
+
 function checkWord(word) {
     const listWords = [
         'дин',
@@ -68,23 +104,6 @@ function checkWord(word) {
 
     return false;
 }
-
-
-
-// const $tests = document.querySelectorAll('.test');
-
-// $tests.forEach(function($testEl) {
-//     $testEl.addEventListener('mouseover', function(e) {
-
-//         console.log('mouseover - ', closestEdge(e, this));
-//     });
-    
-//     $testEl.addEventListener('mouseout', function(e) {
-//         console.log('mouseout - ', closestEdge(e, this));
-//     });
-// });
-
-
 
 
 function closestEdge(event, element) {
