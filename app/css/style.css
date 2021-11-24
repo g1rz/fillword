@@ -14,6 +14,11 @@
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   margin: 50px auto; }
 
 .field {
@@ -91,5 +96,11 @@
     .field__item--empty {
       font-size: 0;
       background-color: gray; }
+
+.test {
+  width: 40px;
+  height: 40px;
+  margin-top: 100px;
+  border: 2px solid green; }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,4 +1,4 @@
-let $field = document.getElementById('game');
+const $field = document.getElementById('game');
 
 
 $field.onmousedown = function(e) {
@@ -67,4 +67,50 @@ function checkWord(word) {
     }
 
     return false;
+}
+
+
+
+// const $tests = document.querySelectorAll('.test');
+
+// $tests.forEach(function($testEl) {
+//     $testEl.addEventListener('mouseover', function(e) {
+
+//         console.log('mouseover - ', closestEdge(e, this));
+//     });
+    
+//     $testEl.addEventListener('mouseout', function(e) {
+//         console.log('mouseout - ', closestEdge(e, this));
+//     });
+// });
+
+
+
+
+function closestEdge(event, element) {
+    const elemBounding  = element.getBoundingClientRect();
+    const x = event.pageX;
+    const y = event.pageY;
+    const elTop = elemBounding.top;
+    const elBottom = elemBounding.bottom;
+    const elLeft = elemBounding.left;
+    const elRight = elemBounding.right;
+
+    const elTopDist = Math.abs(elTop - y);
+    const elBottomDist = Math.abs(elBottom - y);
+    const elLeftDist = Math.abs(elLeft - x);
+    const elRightDist = Math.abs(elRight - x);
+
+    const elMinDist = Math.min(elTopDist, elBottomDist, elLeftDist, elRightDist);
+
+    switch(elMinDist) {
+        case elTopDist:
+            return 'top';
+        case elBottomDist: 
+            return 'bottom';
+        case elLeftDist: 
+            return 'left';
+        case elRightDist: 
+            return 'right';
+    }
 }
