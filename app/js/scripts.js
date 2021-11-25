@@ -31,38 +31,43 @@ $field.onmousedown = function(e) {
         console.log('word - ', word);
 
         clearFieldFromActive();
-
-        $fieldItems.forEach(function($item) {
-
-            $item.onmouseover = null;
-            
-            $item.onmouseout = null;
-
-            $item.classList.remove('rm-top');
-            $item.classList.remove('rm-bottom');
-            $item.classList.remove('rm-left');
-            $item.classList.remove('rm-right');
-        });
+        clearRemovedBorders();
     };
 
 
+
     function move(e) {
-        $target = e.composedPath()[1];//e.target;
+        $target = e.target.closest('.field__item') || e.composedPath()[1];//e.target;
         // console.log(e.composedPath()[1]);
 
-        if ($target.classList.contains('field__item--empty')) {
+        let isGameField = e.target.closest('#game');
+
+        if (isGameField) {
+
+            if ($target.classList.contains('field__item--empty')) {
+                document.onmousemove = null;
+                $field.onmouseup = null;
+                clearFieldFromActive();
+                clearRemovedBorders();
+
+                return false;
+            }
+        
+            if ($target.classList.contains('field__item') && !$target.classList.contains('field__item--active')) {
+                word += $target.textContent.trim() || $target.innerText.trim();
+            }
+        
+            if ($target.classList.contains('field__item')) {
+                $target.classList.add('field__item--active');
+            }
+        
+        } else {
             document.onmousemove = null;
-            $field.onmouseup = null;
-            clearFieldFromActive();
-            return false;
-        }
-    
-        if ($target.classList.contains('field__item') && !$target.classList.contains('field__item--active')) {
-            word += $target.textContent.trim() || $target.innerText.trim();
-        }
-    
-        if ($target.classList.contains('field__item')) {
-            $target.classList.add('field__item--active');
+                $field.onmouseup = null;
+                clearFieldFromActive();
+                clearRemovedBorders();
+
+                return false;
         }
     }
 
@@ -73,6 +78,20 @@ $field.onmousedown = function(e) {
             if ( checkWord(word) ) {
                 el.classList.add('field__item--empty');
             }
+        });
+    }
+
+    function clearRemovedBorders() {
+        $fieldItems.forEach(function($item) {
+
+            $item.onmouseover = null;
+            
+            $item.onmouseout = null;
+
+            $item.classList.remove('rm-top');
+            $item.classList.remove('rm-bottom');
+            $item.classList.remove('rm-left');
+            $item.classList.remove('rm-right');
         });
     }
     
