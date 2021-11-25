@@ -6,20 +6,12 @@ $field.onmousedown = function(e) {
 
     console.log('mousedown');
 
-    let word = '';
-
     $fieldItems.forEach(function($item) {
         $item.onmouseover = function(e) {
-            console.log('mouseovser - ', closestEdge(e, this));
-            // console.log(this);
-            // this.classList.add('field__item--rb');
-
             removeBorder(e, this);
         };
         
         $item.onmouseout = function(e) {
-            console.log('mouseout - ', closestEdge(e, this));
-            // console.log(this);
             removeBorder(e, this);
         };
     });

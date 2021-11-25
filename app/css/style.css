@@ -102,12 +102,16 @@
         background: gray;
         z-index: 40; }
     .field__item.rm-top .borders__border--top {
+      z-index: 50;
       background-color: green; }
     .field__item.rm-bottom .borders__border--bottom {
+      z-index: 50;
       background-color: green; }
     .field__item.rm-left .borders__border--left {
+      z-index: 50;
       background-color: green; }
     .field__item.rm-right .borders__border--right {
+      z-index: 50;
       background-color: green; }
 
 .test {
