@@ -6,6 +6,8 @@ $field.onmousedown = function(e) {
 
     console.log('mousedown');
 
+    let word = '';
+
     $fieldItems.forEach(function($item) {
         $item.onmouseover = function(e) {
             removeBorder(e, this);
