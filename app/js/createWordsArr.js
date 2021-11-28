@@ -65,6 +65,8 @@ while (wordObj.chars.length > 0) {
     }
 
     wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
+
+    console.log(wordObj);
     
     gameArr[wordObj.y][wordObj.x] = char;
 }
@@ -145,12 +147,12 @@ function drawField(gameArr) {
     console.log('draw');
     const $field = document.getElementById('game');
 
-    for ( let y = 0; i < gameArr.length; y++ ) {
+    for ( let y = 0; y < gameArr.length; y++ ) {
         const $fieldRow = document.createElement('div');
         $fieldRow.classList.add('field__row');
 
-        for ( let x = 0; x < gameArr[y].length; x++ ) {
-
+        for ( let x = 0; x < gameArr[0].length; x++ ) {
+            console.log('y - ', y, ' x - ', x);
             const $fieldItem = createElement('div', 'field__item'),
                   $fieldItemSpan =  createElement('span', '', gameArr[y][x]),
                   $borders = createElement('div', 'borders'),
