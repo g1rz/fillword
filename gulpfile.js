@@ -34,12 +34,7 @@ gulp.task('browser-sync', function() { // Создаем таск browser-sync
     });
 });
 
-gulp.task('pug', function() {
-    return gulp.src("app/pug/*.pug")
-        .pipe(pug({ pretty: true }))
-        .pipe(gulp.dest("app"))
-        .pipe(browserSync.stream());
-});
+
 
 gulp.task('scripts', function() {
     return gulp.src([ // Берем все необходимые библиотеки
@@ -90,10 +85,10 @@ gulp.task('css-libs', ['sass'], function() {
         .pipe(gulp.dest('app/css')); // Выгружаем в папку app/css
 });
 
-gulp.task('watch', ['browser-sync', 'css-libs', 'scripts', 'svgSprite', 'imgSprite', 'pug'], function() {
+gulp.task('watch', ['browser-sync', 'css-libs', 'scripts', 'svgSprite', 'imgSprite'], function() {
     gulp.watch('app/sass/**/*.sass', ['sass']); // Наблюдение за sass файлами в папке sass
 
-    gulp.watch('app/pug/**/*.pug', ['pug']);
+
     gulp.watch('app/img/sprite-svg/*.svg', ['svgSprite']);
     gulp.watch('app/img/sprite-img/*.*', ['imgSprite']);
     gulp.watch('app/*.html', browserSync.reload); // Наблюдение за HTML файлами в корне проекта
