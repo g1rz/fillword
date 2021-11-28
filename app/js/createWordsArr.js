@@ -108,10 +108,17 @@ function findDirection(x, y, game) {
         arrDirs.push('left')
     }
 
+    // arrDirs.forEach(dir => {
+    //     if (dir === 'top') {
+    //         findDirectionsList(x , y - 1, game)
+    //     }
+    // });
+
     return shuffle(arrDirs)[0];
 }
 
-function getDirectionsList(x, y, game, wordLength) {
+
+function findDirectionsList(x, y, game) {
     let arrDirs = [];
 
     if ( (y - 1 >= 0) && !game[y - 1][x] ) {
@@ -127,8 +134,9 @@ function getDirectionsList(x, y, game, wordLength) {
         arrDirs.push('left')
     }
 
-    return arrDirs[0];
+    return arrDirs;
 }
+
 
 
 function  getRandomInt(min, max) {
@@ -152,7 +160,7 @@ function drawField(gameArr) {
         $fieldRow.classList.add('field__row');
 
         for ( let x = 0; x < gameArr[0].length; x++ ) {
-            console.log('y - ', y, ' x - ', x);
+    
             const $fieldItem = createElement('div', 'field__item'),
                   $fieldItemSpan =  createElement('span', '', gameArr[y][x]),
                   $borders = createElement('div', 'borders'),
@@ -176,7 +184,6 @@ function drawField(gameArr) {
 
             $fieldRow.appendChild($fieldItem);
         }
-        console.log($fieldRow);
         $field.appendChild($fieldRow);
     }
 }
