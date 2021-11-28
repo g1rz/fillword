@@ -7,6 +7,15 @@ const words = [
     'терминал'
 ];
 
+const colors = [
+    '#28f141',
+    '#285cf1',
+    '#d328f1',
+    '#f12897',
+    '#cfc868',
+    '#68cfc6'
+];
+
 
 const countChars = words.reduce((sum, item) => sum += item.length, 0);
 
@@ -19,6 +28,7 @@ console.log(gameArr);
 
 let wordObj = {
     chars: Array.from('этикетка').reverse(),
+    color: colors.pop(),
     x: 0,
     y: 0,
     direction: ''
@@ -57,11 +67,6 @@ while (wordObj.chars.length > 0) {
     wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
     
     gameArr[wordObj.y][wordObj.x] = char;
-
-    // console.log('-------');
-    // console.log('stage ', i++);
-    // console.log(wordObj);
-    // console.log(gameArr);
 }
 
 drawField(gameArr);
@@ -86,6 +91,25 @@ function getSizeArray(countItems) {
 }
 
 function findDirection(x, y, game) {
+    let arrDirs = [];
+
+    if ( (y - 1 >= 0) && !game[y - 1][x] ) {
+        arrDirs.push('top');
+    }
+    if ( (x + 1 <= game[0].length - 1) && !game[y][x + 1] ) {
+        arrDirs.push('right');
+    }
+    if ( (y + 1 <= game.length - 1) && !game[y + 1][x] ) {
+        arrDirs.push('bottom');
+    }
+    if ( (x - 1 >= 0) && !game[y][x - 1] ) {
+        arrDirs.push('left')
+    }
+
+    return shuffle(arrDirs)[0];
+}
+
+function getDirectionsList(x, y, game, wordLength) {
     let arrDirs = [];
 
     if ( (y - 1 >= 0) && !game[y - 1][x] ) {
