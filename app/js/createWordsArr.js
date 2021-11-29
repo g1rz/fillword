@@ -43,8 +43,8 @@ while (wordObj.chars.length > 0) {
     const char = wordObj.chars.pop();
 
     if (wordObj.direction === '') {
-        wordObj.x = getRandomInt(0, sizeArr.x - 1); 
-        wordObj.y = getRandomInt(0, sizeArr.y - 1);
+        wordObj.x = 0//getRandomInt(0, sizeArr.x - 1); 
+        wordObj.y = 3//getRandomInt(0, sizeArr.y - 1);
 
         
     } else {
@@ -63,12 +63,17 @@ while (wordObj.chars.length > 0) {
         }
         
     }
-
+    gameArr[wordObj.y][wordObj.x] = char;
+    console.log('----------');
+    console.log('stage - ', i++);
+    console.log(wordObj, char);
     wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
 
-    console.log(wordObj);
     
-    gameArr[wordObj.y][wordObj.x] = char;
+    // console.log(gameArr);
+    
+    
+
 }
 
 drawField(gameArr);
@@ -94,6 +99,7 @@ function getSizeArray(countItems) {
 
 function findDirection(x, y, game) {
     let arrDirs = [];
+    let arrDirsFuture = [];
 
     if ( (y - 1 >= 0) && !game[y - 1][x] ) {
         arrDirs.push('top');
@@ -108,17 +114,47 @@ function findDirection(x, y, game) {
         arrDirs.push('left')
     }
 
-    // arrDirs.forEach(dir => {
-    //     if (dir === 'top') {
-    //         findDirectionsList(x , y - 1, game)
-    //     }
-    // });
+    console.log(gameArr);
 
-    return shuffle(arrDirs)[0];
+    arrDirs.forEach(dir => {
+        let countDirs = 0;
+        if (dir === 'top') {
+            countDirs = findDirectionsCount(x , y - 1 , game);
+        }
+        if (dir === 'right') {
+            countDirs = findDirectionsCount(x + 1 , y , game);
+        }
+        if (dir === 'left') {
+            countDirs = findDirectionsCount(x - 1 , y , game);
+        }
+        if (dir === 'bottom') {
+            countDirs = findDirectionsCount(x , y + 1 , game);
+        }
+
+        arrDirsFuture.push({
+            dir: dir,
+            countDirs: countDirs
+        });
+    });
+
+    let minCountDirs = arrDirsFuture[0].countDirs;
+    console.log(arrDirsFuture);
+    arrDirsFuture = arrDirsFuture.filter(item => {
+        if (item.countDirs <= minCountDirs) {
+            minCountDirs = item.countDirs;
+
+            return true;
+        } 
+        return false;
+    });
+
+    console.log(arrDirsFuture);
+
+    return shuffle(arrDirsFuture)[0].dir;
 }
 
 
-function findDirectionsList(x, y, game) {
+function findDirectionsCount(x, y, game) {
     let arrDirs = [];
 
     if ( (y - 1 >= 0) && !game[y - 1][x] ) {
@@ -134,7 +170,7 @@ function findDirectionsList(x, y, game) {
         arrDirs.push('left')
     }
 
-    return arrDirs;
+    return arrDirs.length;
 }
 
 
