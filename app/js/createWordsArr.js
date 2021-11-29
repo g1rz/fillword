@@ -43,8 +43,8 @@ while (wordObj.chars.length > 0) {
     const char = wordObj.chars.pop();
 
     if (wordObj.direction === '') {
-        wordObj.x = 0//getRandomInt(0, sizeArr.x - 1); 
-        wordObj.y = 3//getRandomInt(0, sizeArr.y - 1);
+        wordObj.x = getRandomInt(0, sizeArr.x - 1); // 0 
+        wordObj.y = getRandomInt(0, sizeArr.y - 1); // 3
 
         
     } else {
@@ -138,16 +138,27 @@ function findDirection(x, y, game) {
     });
 
     let minCountDirs = arrDirsFuture[0].countDirs;
+
+    console.log('arrDirsFuture - ');
     console.log(arrDirsFuture);
-    arrDirsFuture = arrDirsFuture.filter(item => {
+
+    // let arrDirsFutureFiltered = arrDirsFuture.filter(item => {
+    //     if (item.countDirs <= minCountDirs) {
+    //         minCountDirs = item.countDirs;
+
+    //         return true;
+    //     } 
+    //     return false;
+    // });
+
+    arrDirsFuture.map(item => {
         if (item.countDirs <= minCountDirs) {
             minCountDirs = item.countDirs;
-
-            return true;
         } 
-        return false;
     });
+    arrDirsFuture = arrDirsFuture.filter(item => item.countDirs <= minCountDirs);
 
+    console.log('arrDirsFuture Filtered - ');
     console.log(arrDirsFuture);
 
     return shuffle(arrDirsFuture)[0].dir;
