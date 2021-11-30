@@ -91,13 +91,13 @@
           top: 0;
           left: 0; }
     .field__item--active {
-      background: green; }
+      background: green !important; }
       .field__item--active .borders__border {
         background: red;
         z-index: 100; }
     .field__item--empty {
       font-size: 0;
-      background-color: gray; }
+      background-color: gray !important; }
       .field__item--empty .borders__border {
         background: gray;
         z-index: 40; }

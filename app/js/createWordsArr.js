@@ -7,19 +7,20 @@ const words = [
     'терминал'
 ];
 
-const colors = [
-    '#28f141',
-    '#285cf1',
-    '#d328f1',
-    '#f12897',
-    '#cfc868',
-    '#68cfc6'
+let colors = [
+    '#28f141', '#285cf1', '#d328f1', '#f12897', '#cfc868', '#68cfc6'
 ];
 
 const testWords = [
     'этикетка',
+    'город',
+    'заявка',
+    'приват',
+    'документ',
+    'терминал'
 ];
 
+// colors = shuffle(colors);
 
 const countChars = words.reduce((sum, item) => sum += item.length, 0);
 
@@ -51,7 +52,9 @@ for (let y = 0; y < sizeArr.y; y++) {
         const obj = {
             x: x,
             y: y,
-            isEmty: true,
+            char: '',
+            color: '',
+            isEmpty: true,
             freeNeighbors: freeNeighbors
         };
 
@@ -71,14 +74,30 @@ testWords.forEach((word, index) => {
         startX = getRandomInt(0, sizeArr.x - 1); 
         startY = getRandomInt(0, sizeArr.y - 1);
     } else {
-        let min = 5;
+        let min = 2;
 
-        // let neighborsArrObjMin = neighborsArrObj.filter()
+        let minPoints = [];
+
+        for (let y = 0; y < sizeArr.y; y++) {
+            for (let x = 0; x < sizeArr.x; x++) {
+                if ( neighborsArrObj[y][x].isEmpty && neighborsArrObj[y][x].freeNeighbors <= min) {
+                    min = neighborsArrObj[y][x].freeNeighbors;
+                    minPoints.push(neighborsArrObj[y][x]);
+                }
+            }
+        }
+        console.log('min - ', min);
+        console.log('mins - ', minPoints);
+
+        let minPoint = shuffle(minPoints)[0];
+
+        startX = minPoint.x; 
+        startY = minPoint.y;
     }
 
     let wordObj = {
-        chars: Array.from(word).reverse(),
-        color: colors.pop(),
+        chars: getRandomInt(0 , 1) === 0 ? Array.from(word).reverse() : Array.from(word),
+        // color: colors.pop(),
         x: startX,
         y: startY,
         direction: ''
@@ -90,12 +109,7 @@ testWords.forEach((word, index) => {
     while (wordObj.chars.length > 0) {
         const char = wordObj.chars.pop();
 
-        if (wordObj.direction === '') {
-            // wordObj.x = getRandomInt(0, sizeArr.x - 1); // 0 
-            // wordObj.y = getRandomInt(0, sizeArr.y - 1); // 3
-
-            
-        } else {
+        if (wordObj.direction !== '') {
             switch(wordObj.direction) {
                 case 'top':
                     wordObj.y = wordObj.y - 1;
@@ -109,22 +123,24 @@ testWords.forEach((word, index) => {
                 case 'left':
                     wordObj.x = wordObj.x - 1;
             }
-            
         }
         gameArr[wordObj.y][wordObj.x] = char;
 
         
 
         console.log('----------');
-        console.log('stage - ', i++);
+        console.log('word - ', index, ';  stage - ', i++);
         console.log(wordObj, char);
         wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
 
-        neighborsArrObj[wordObj.y][wordObj.x].isEmty = false;
+        neighborsArrObj[wordObj.y][wordObj.x].isEmpty = false;
+        neighborsArrObj[wordObj.y][wordObj.x].char = char;
+        neighborsArrObj[wordObj.y][wordObj.x].color = colors[index];
+
         if ( wordObj.y - 1 >= 0 ) {
             --neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
 
-            if (!neighborsArrObj[wordObj.y - 1][wordObj.x].isEmty) {
+            if (!neighborsArrObj[wordObj.y - 1][wordObj.x].isEmpty) {
                 neighborsArr[wordObj.y - 1][wordObj.x] = 0;
             } else {
                 neighborsArr[wordObj.y - 1][wordObj.x] = neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
@@ -134,7 +150,7 @@ testWords.forEach((word, index) => {
         if ( wordObj.y + 1 < sizeArr.y ) {
             --neighborsArrObj[wordObj.y + 1][wordObj.x].freeNeighbors;
 
-            if (!neighborsArrObj[wordObj.y + 1][wordObj.x].isEmty) {
+            if (!neighborsArrObj[wordObj.y + 1][wordObj.x].isEmpty) {
                 neighborsArr[wordObj.y + 1][wordObj.x] = 0;
             } else {
                 neighborsArr[wordObj.y + 1][wordObj.x] = neighborsArrObj[wordObj.y + 1][wordObj.x].freeNeighbors;
@@ -144,7 +160,7 @@ testWords.forEach((word, index) => {
         if ( wordObj.x - 1 >= 0 ) {
             --neighborsArrObj[wordObj.y][wordObj.x - 1].freeNeighbors;
 
-            if (!neighborsArrObj[wordObj.y][wordObj.x - 1].isEmty) {
+            if (!neighborsArrObj[wordObj.y][wordObj.x - 1].isEmpty) {
                 neighborsArr[wordObj.y][wordObj.x - 1] = 0;
             } else {
                 neighborsArr[wordObj.y][wordObj.x - 1] = neighborsArrObj[wordObj.y][wordObj.x - 1].freeNeighbors;
@@ -154,20 +170,18 @@ testWords.forEach((word, index) => {
         if ( wordObj.x + 1 < sizeArr.x ) {
             --neighborsArrObj[wordObj.y][wordObj.x + 1].freeNeighbors;
 
-            if (!neighborsArrObj[wordObj.y][wordObj.x + 1].isEmty) {
+            if (!neighborsArrObj[wordObj.y][wordObj.x + 1].isEmpty) {
                 neighborsArr[wordObj.y][wordObj.x + 1] = 0;
             } else {
                 neighborsArr[wordObj.y][wordObj.x + 1] = neighborsArrObj[wordObj.y][wordObj.x + 1].freeNeighbors;
             }
         }
 
-        if (!neighborsArrObj[wordObj.y][wordObj.x].isEmty) {
+        if (!neighborsArrObj[wordObj.y][wordObj.x].isEmpty) {
             neighborsArr[wordObj.y][wordObj.x] = 0;
         }
-
         
-        
-        // console.log(gameArr);
+        console.log(gameArr);
     }
 
 });
@@ -175,7 +189,8 @@ testWords.forEach((word, index) => {
 console.log(gameArr);
 console.log(neighborsArr);
     console.log(neighborsArrObj);
-drawField(gameArr);
+// drawField(gameArr);
+drawField(neighborsArrObj);
 
 
 function getSizeArray(countItems) {
@@ -291,16 +306,18 @@ function drawField(gameArr) {
         for ( let x = 0; x < gameArr[0].length; x++ ) {
     
             const $fieldItem = createElement('div', 'field__item'),
-                  $fieldItemSpan =  createElement('span', '', gameArr[y][x]),
+                  $fieldItemSpan =  createElement('span', '', gameArr[y][x].char),
                   $borders = createElement('div', 'borders'),
                   $border_top = createElement('div', 'borders__border borders__border--top'),
                   $border_right = createElement('div', 'borders__border borders__border--right'),
                   $border_bottom = createElement('div', 'borders__border borders__border--bottom'),
                   $border_left = createElement('div', 'borders__border borders__border--left');
 
-            if ( !gameArr[y][x] ) {
+            if ( gameArr[y][x].isEmpty ) {
                 $fieldItem.classList.add('field__item--empty');
+                
             }
+            $fieldItem.style.backgroundColor = gameArr[y][x].color;
 
             $fieldItem.appendChild($fieldItemSpan);
 
