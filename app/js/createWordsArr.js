@@ -21,7 +21,40 @@ const countChars = words.reduce((sum, item) => sum += item.length, 0);
 
 const sizeArr = getSizeArray(countChars);
 
+
+// Игровое поле
 let gameArr = Array.from( Array(sizeArr.y), () => new Array(sizeArr.x).fill(0) );
+
+// массив для наглядности со свободными соседними ячейками - удалить
+let neighborsArr = Array.from( Array(sizeArr.y), () => new Array(sizeArr.x) );
+
+// массив объектов со свободными соседними ячейками и координатами
+let neighborsArrObj = Array.from( Array(sizeArr.y), () => new Array(sizeArr.x) );
+
+for (let y = 0; y < sizeArr.y; y++) {
+
+    for (let x = 0; x < sizeArr.x; x++) {
+        let freeNeighbors = 0;
+
+        if ( (x === 0 && y === 0) || (x === sizeArr.x - 1 && y === 0) || (x === 0 && y === sizeArr.y - 1) || (x === sizeArr.x - 1 && y === sizeArr.y - 1) ) {
+            freeNeighbors = 2;
+        } else if ( (x > 0 && x < sizeArr.x - 1 && y === 0) || (x === 0 && y > 0 && y < sizeArr.y - 1) || (x === sizeArr.x - 1 && y > 0 && y < sizeArr.y - 1) || (x > 0 && x < sizeArr.x - 1 && y === sizeArr.y - 1) ) {
+            freeNeighbors = 3;
+        } else {
+            freeNeighbors = 4;
+        }
+
+        const obj = {
+            x: x,
+            y: y,
+            isEmty: true,
+            freeNeighbors: freeNeighbors
+        };
+
+        neighborsArrObj[y][x] = obj;
+        neighborsArr[y][x] = obj.freeNeighbors;
+    }
+}
 
 // console.log(countChars, sizeArr);
 console.log(gameArr);
@@ -33,7 +66,6 @@ let wordObj = {
     y: 0,
     direction: ''
 };
-
 
 
 console.log(wordObj);
@@ -64,18 +96,66 @@ while (wordObj.chars.length > 0) {
         
     }
     gameArr[wordObj.y][wordObj.x] = char;
+
+    
+
     console.log('----------');
     console.log('stage - ', i++);
     console.log(wordObj, char);
     wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
 
+    neighborsArrObj[wordObj.y][wordObj.x].isEmty = false;
+    if ( wordObj.y - 1 >= 0 ) {
+        --neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
+
+        if (!neighborsArrObj[wordObj.y - 1][wordObj.x].isEmty) {
+            neighborsArr[wordObj.y - 1][wordObj.x] = 0;
+        } else {
+            neighborsArr[wordObj.y - 1][wordObj.x] = neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
+        }
+        
+    }
+    if ( wordObj.y + 1 < sizeArr.y ) {
+        --neighborsArrObj[wordObj.y + 1][wordObj.x].freeNeighbors;
+
+        if (!neighborsArrObj[wordObj.y + 1][wordObj.x].isEmty) {
+            neighborsArr[wordObj.y + 1][wordObj.x] = 0;
+        } else {
+            neighborsArr[wordObj.y + 1][wordObj.x] = neighborsArrObj[wordObj.y + 1][wordObj.x].freeNeighbors;
+        }
+
+    }
+    if ( wordObj.x - 1 >= 0 ) {
+        --neighborsArrObj[wordObj.y][wordObj.x - 1].freeNeighbors;
+
+        if (!neighborsArrObj[wordObj.y][wordObj.x - 1].isEmty) {
+            neighborsArr[wordObj.y][wordObj.x - 1] = 0;
+        } else {
+            neighborsArr[wordObj.y][wordObj.x - 1] = neighborsArrObj[wordObj.y][wordObj.x - 1].freeNeighbors;
+        }
+        
+    }
+    if ( wordObj.x + 1 < sizeArr.x ) {
+        --neighborsArrObj[wordObj.y][wordObj.x + 1].freeNeighbors;
+
+        if (!neighborsArrObj[wordObj.y][wordObj.x + 1].isEmty) {
+            neighborsArr[wordObj.y][wordObj.x + 1] = 0;
+        } else {
+            neighborsArr[wordObj.y][wordObj.x + 1] = neighborsArrObj[wordObj.y][wordObj.x + 1].freeNeighbors;
+        }
+    }
+
+    if (!neighborsArrObj[wordObj.y][wordObj.x].isEmty) {
+        neighborsArr[wordObj.y][wordObj.x] = 0;
+    }
+
+    
     
     // console.log(gameArr);
-    
-    
-
 }
-
+console.log(gameArr);
+console.log(neighborsArr);
+    console.log(neighborsArrObj);
 drawField(gameArr);
 
 
@@ -114,8 +194,6 @@ function findDirection(x, y, game) {
         arrDirs.push('left')
     }
 
-    console.log(gameArr);
-
     arrDirs.forEach(dir => {
         let countDirs = 0;
         if (dir === 'top') {
@@ -139,27 +217,12 @@ function findDirection(x, y, game) {
 
     let minCountDirs = arrDirsFuture[0].countDirs;
 
-    console.log('arrDirsFuture - ');
-    console.log(arrDirsFuture);
-
-    // let arrDirsFutureFiltered = arrDirsFuture.filter(item => {
-    //     if (item.countDirs <= minCountDirs) {
-    //         minCountDirs = item.countDirs;
-
-    //         return true;
-    //     } 
-    //     return false;
-    // });
-
     arrDirsFuture.map(item => {
         if (item.countDirs <= minCountDirs) {
             minCountDirs = item.countDirs;
         } 
     });
     arrDirsFuture = arrDirsFuture.filter(item => item.countDirs <= minCountDirs);
-
-    console.log('arrDirsFuture Filtered - ');
-    console.log(arrDirsFuture);
 
     return shuffle(arrDirsFuture)[0].dir;
 }
