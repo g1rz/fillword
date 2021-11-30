@@ -16,6 +16,10 @@ const colors = [
     '#68cfc6'
 ];
 
+const testWords = [
+    'этикетка',
+];
+
 
 const countChars = words.reduce((sum, item) => sum += item.length, 0);
 
@@ -59,100 +63,115 @@ for (let y = 0; y < sizeArr.y; y++) {
 // console.log(countChars, sizeArr);
 console.log(gameArr);
 
-let wordObj = {
-    chars: Array.from('этикетка').reverse(),
-    color: colors.pop(),
-    x: 0,
-    y: 0,
-    direction: ''
-};
+testWords.forEach((word, index) => {
 
+    let startX, startY;
 
-console.log(wordObj);
-
-let i = 1;
-while (wordObj.chars.length > 0) {
-    const char = wordObj.chars.pop();
-
-    if (wordObj.direction === '') {
-        wordObj.x = getRandomInt(0, sizeArr.x - 1); // 0 
-        wordObj.y = getRandomInt(0, sizeArr.y - 1); // 3
-
-        
+    if (index === 0) {
+        startX = getRandomInt(0, sizeArr.x - 1); 
+        startY = getRandomInt(0, sizeArr.y - 1);
     } else {
-        switch(wordObj.direction) {
-            case 'top':
-                wordObj.y = wordObj.y - 1;
-                break;
-            case 'right':
-                wordObj.x = wordObj.x + 1;
-                break;
-            case 'bottom':
-                wordObj.y = wordObj.y + 1;
-                break;
-            case 'left':
-                wordObj.x = wordObj.x - 1;
+        let min = 5;
+
+        // let neighborsArrObjMin = neighborsArrObj.filter()
+    }
+
+    let wordObj = {
+        chars: Array.from(word).reverse(),
+        color: colors.pop(),
+        x: startX,
+        y: startY,
+        direction: ''
+    };
+
+    console.log(wordObj);
+
+    let i = 1;
+    while (wordObj.chars.length > 0) {
+        const char = wordObj.chars.pop();
+
+        if (wordObj.direction === '') {
+            // wordObj.x = getRandomInt(0, sizeArr.x - 1); // 0 
+            // wordObj.y = getRandomInt(0, sizeArr.y - 1); // 3
+
+            
+        } else {
+            switch(wordObj.direction) {
+                case 'top':
+                    wordObj.y = wordObj.y - 1;
+                    break;
+                case 'right':
+                    wordObj.x = wordObj.x + 1;
+                    break;
+                case 'bottom':
+                    wordObj.y = wordObj.y + 1;
+                    break;
+                case 'left':
+                    wordObj.x = wordObj.x - 1;
+            }
+            
         }
+        gameArr[wordObj.y][wordObj.x] = char;
+
         
-    }
-    gameArr[wordObj.y][wordObj.x] = char;
 
-    
+        console.log('----------');
+        console.log('stage - ', i++);
+        console.log(wordObj, char);
+        wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
 
-    console.log('----------');
-    console.log('stage - ', i++);
-    console.log(wordObj, char);
-    wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
+        neighborsArrObj[wordObj.y][wordObj.x].isEmty = false;
+        if ( wordObj.y - 1 >= 0 ) {
+            --neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
 
-    neighborsArrObj[wordObj.y][wordObj.x].isEmty = false;
-    if ( wordObj.y - 1 >= 0 ) {
-        --neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
-
-        if (!neighborsArrObj[wordObj.y - 1][wordObj.x].isEmty) {
-            neighborsArr[wordObj.y - 1][wordObj.x] = 0;
-        } else {
-            neighborsArr[wordObj.y - 1][wordObj.x] = neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
+            if (!neighborsArrObj[wordObj.y - 1][wordObj.x].isEmty) {
+                neighborsArr[wordObj.y - 1][wordObj.x] = 0;
+            } else {
+                neighborsArr[wordObj.y - 1][wordObj.x] = neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
+            }
+            
         }
+        if ( wordObj.y + 1 < sizeArr.y ) {
+            --neighborsArrObj[wordObj.y + 1][wordObj.x].freeNeighbors;
+
+            if (!neighborsArrObj[wordObj.y + 1][wordObj.x].isEmty) {
+                neighborsArr[wordObj.y + 1][wordObj.x] = 0;
+            } else {
+                neighborsArr[wordObj.y + 1][wordObj.x] = neighborsArrObj[wordObj.y + 1][wordObj.x].freeNeighbors;
+            }
+
+        }
+        if ( wordObj.x - 1 >= 0 ) {
+            --neighborsArrObj[wordObj.y][wordObj.x - 1].freeNeighbors;
+
+            if (!neighborsArrObj[wordObj.y][wordObj.x - 1].isEmty) {
+                neighborsArr[wordObj.y][wordObj.x - 1] = 0;
+            } else {
+                neighborsArr[wordObj.y][wordObj.x - 1] = neighborsArrObj[wordObj.y][wordObj.x - 1].freeNeighbors;
+            }
+            
+        }
+        if ( wordObj.x + 1 < sizeArr.x ) {
+            --neighborsArrObj[wordObj.y][wordObj.x + 1].freeNeighbors;
+
+            if (!neighborsArrObj[wordObj.y][wordObj.x + 1].isEmty) {
+                neighborsArr[wordObj.y][wordObj.x + 1] = 0;
+            } else {
+                neighborsArr[wordObj.y][wordObj.x + 1] = neighborsArrObj[wordObj.y][wordObj.x + 1].freeNeighbors;
+            }
+        }
+
+        if (!neighborsArrObj[wordObj.y][wordObj.x].isEmty) {
+            neighborsArr[wordObj.y][wordObj.x] = 0;
+        }
+
         
-    }
-    if ( wordObj.y + 1 < sizeArr.y ) {
-        --neighborsArrObj[wordObj.y + 1][wordObj.x].freeNeighbors;
-
-        if (!neighborsArrObj[wordObj.y + 1][wordObj.x].isEmty) {
-            neighborsArr[wordObj.y + 1][wordObj.x] = 0;
-        } else {
-            neighborsArr[wordObj.y + 1][wordObj.x] = neighborsArrObj[wordObj.y + 1][wordObj.x].freeNeighbors;
-        }
-
-    }
-    if ( wordObj.x - 1 >= 0 ) {
-        --neighborsArrObj[wordObj.y][wordObj.x - 1].freeNeighbors;
-
-        if (!neighborsArrObj[wordObj.y][wordObj.x - 1].isEmty) {
-            neighborsArr[wordObj.y][wordObj.x - 1] = 0;
-        } else {
-            neighborsArr[wordObj.y][wordObj.x - 1] = neighborsArrObj[wordObj.y][wordObj.x - 1].freeNeighbors;
-        }
         
-    }
-    if ( wordObj.x + 1 < sizeArr.x ) {
-        --neighborsArrObj[wordObj.y][wordObj.x + 1].freeNeighbors;
-
-        if (!neighborsArrObj[wordObj.y][wordObj.x + 1].isEmty) {
-            neighborsArr[wordObj.y][wordObj.x + 1] = 0;
-        } else {
-            neighborsArr[wordObj.y][wordObj.x + 1] = neighborsArrObj[wordObj.y][wordObj.x + 1].freeNeighbors;
-        }
+        // console.log(gameArr);
     }
 
-    if (!neighborsArrObj[wordObj.y][wordObj.x].isEmty) {
-        neighborsArr[wordObj.y][wordObj.x] = 0;
-    }
+});
 
-    
-    
-    // console.log(gameArr);
-}
 console.log(gameArr);
 console.log(neighborsArr);
     console.log(neighborsArrObj);
