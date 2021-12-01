@@ -4,13 +4,39 @@
   <title>Главная страница</title>
   <meta name="description" content="Главная страница">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="main-page">
-  <div class="main-content">
-    <div class="field-wrap"> 
-      <div class="field" id="game"></div>
+  <div class="container">
+    <h1>Генератор филворда</h1>
+    <div class="info-wrap">
+      <p>Введите слова через запятую. Слова не должны содержать цифры, пробелы</p>
+      <textarea id="words" class="words-field" name="words" id="" cols="30" rows="10" value="test">этикетка, город, заявка, приват, документ, терминал, эпидемия, морковка, привет</textarea>
+
+      <div class="check">
+        <input type="checkbox" id="hide_color" class="check__input" checked>
+        <label for="hide_color" class="check__label">Скрывать цвета</label>
+      </div>
+      <button id="create" class="btn">Создать</button>
     </div>
+    
+
+    
+
+    <div class="field-wrap"> 
+      <div class="field hide-colors" id="game"></div>
+    </div>
+
+    <div id="info_list" class="info hide">
+      <p>Время создания: <span id="time"></span></p>
+      <p>Количество попыток: <span id="count"></span></p>
+    </div>
+    
   </div>
 </body>
 <script src="js/createWordsArr.js"></script>

@@ -1,3 +1,56 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
+
+h1 {
+  margin: 0 0 30px;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center; }
+
+.main-page {
+  margin: 50px 0; }
+
+.container {
+  max-width: 1200px;
+  padding: 0 15px; }
+
+.words-field {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 30px;
+  padding: 20px;
+  border: 1px solid #ccc; }
+
+.btn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100px;
+  height: 40px;
+  margin: 0 auto;
+  cursor: pointer; }
+
+.hide {
+  display: none; }
+
+.info-wrap {
+  max-width: 500px;
+  margin: 0 auto; }
+
 .field-wrap {
   display: -webkit-box;
   display: -webkit-flex;
@@ -27,6 +80,12 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
+  .field.hide-colors .field__item {
+    background: #fff !important; }
+    .field.hide-colors .field__item--active {
+      background: green !important; }
+    .field.hide-colors .field__item--empty {
+      background: gray !important; }
   .field__row {
     display: -webkit-box;
     display: -webkit-flex;
