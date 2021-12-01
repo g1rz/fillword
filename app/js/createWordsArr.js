@@ -10,10 +10,16 @@ const words = [
     'привет',
     'монопенисуально',
     'рефрежератор',
+    'обороноспособность',
+    'стройка',
+    'диалог',
+    'монумент',
+    'кирпич',
+    'олимпиада'
 ];
 
 let colors = [
-    '#28f141', '#285cf1', '#d328f1', '#f12897', '#cfc868', '#68cfc6', '#fd501c', '#fdd71c', '#1cfdde', '#1caafd', '#fd25d8'
+    '#28f141', '#285cf1', '#d328f1', '#f12897', '#cfc868', '#68cfc6', '#fd501c', '#fdd71c', '#1cfdde', '#1caafd', '#fd25d8', '#5adfff', '#ff5a71', '#ffcc5a', '#6cff5a', '#395cda', '#8d39da', '#e9024c', '#90e902', '#e9d702'
 ];
 
 let = colorIndex = 0;
@@ -99,7 +105,7 @@ while (!isOk) {
             }
 
             let wordObj = {
-                chars: getRandomInt(0 , 1) === 0 ? Array.from(word).reverse() : Array.from(word),
+                chars: Array.from(word).reverse() ,
                 // color: colors.pop(),
                 x: startX,
                 y: startY,
