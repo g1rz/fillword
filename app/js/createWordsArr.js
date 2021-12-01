@@ -21,7 +21,7 @@ $hideColor.addEventListener('change', function(e) {
 $btn.addEventListener('click', function(e) {
     const $textarea = document.getElementById('words');
 
-    words = $textarea.value.replace(/[0-9-_.;: ]*/gi, '').split(',');
+    words = $textarea.value.replace(/[0-9-_.'"` ;: \n\s]*/gi, '').split(',');
     console.log(words);
 
     console.time('CreateField');
