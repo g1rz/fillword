@@ -105,19 +105,21 @@ function removeBorder(event, element) {
 
 
 function checkWord(word) {
-    const listWords = [
-        'этикетка',
-        'город',
-        'заявка',
-        'приват',
-        'документ',
-        'терминал'
-    ];
-
-    if ( listWords.includes(word) ) {
+    // const listWords = [
+    //     'этикетка',
+    //     'город',
+    //     'заявка',
+    //     'приват',
+    //     'документ',
+    //     'терминал'
+    // ];
+    // console.log(words);
+    if ( words.includes(word) ) {
+        console.log('check ok');
         return true;
     }
 
+    console.log('check no');
     return false;
 }
 

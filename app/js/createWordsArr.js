@@ -5,16 +5,20 @@ const words = [
     'приват',
     'документ',
     'терминал',
-    'эпидемия'
+    'эпидемия',
+    'морковка',
+    'привет',
+    'монопенисуально',
+    'рефрежератор',
 ];
 
 let colors = [
-    '#28f141', '#285cf1', '#d328f1', '#f12897', '#cfc868', '#68cfc6'
+    '#28f141', '#285cf1', '#d328f1', '#f12897', '#cfc868', '#68cfc6', '#fd501c', '#fdd71c', '#1cfdde', '#1caafd', '#fd25d8'
 ];
 
 let = colorIndex = 0;
 
-// colors = shuffle(colors);
+colors = shuffle(colors);
 
 const countChars = words.reduce((sum, item) => sum += item.length, 0);
 
