@@ -5,13 +5,14 @@ const words = [
     'приват',
     'документ',
     'терминал',
-    'эпидеми'
+    'эпидемия'
 ];
 
 let colors = [
     '#28f141', '#285cf1', '#d328f1', '#f12897', '#cfc868', '#68cfc6'
 ];
 
+let = colorIndex = 0;
 
 // colors = shuffle(colors);
 
@@ -106,6 +107,7 @@ while (!isOk) {
             let i = 1;
             while (wordObj.chars.length > 0) {
                 const char = wordObj.chars.pop();
+                // console.log(wordObj.chars.length);
 
                 if (wordObj.direction !== '') {
                     switch(wordObj.direction) {
@@ -129,11 +131,13 @@ while (!isOk) {
                 // console.log('----------');
                 // console.log('word - ', index, ';  stage - ', i++);
                 // console.log(wordObj, char);
-                wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
+
+                if (wordObj.chars.length !== 0) 
+                    wordObj.direction = findDirection(wordObj.x, wordObj.y, gameArr);
 
                 neighborsArrObj[wordObj.y][wordObj.x].isEmpty = false;
                 neighborsArrObj[wordObj.y][wordObj.x].char = char;
-                neighborsArrObj[wordObj.y][wordObj.x].color = colors[index];
+                neighborsArrObj[wordObj.y][wordObj.x].color = colors[colorIndex];
 
                 if ( wordObj.y - 1 >= 0 ) {
                     --neighborsArrObj[wordObj.y - 1][wordObj.x].freeNeighbors;
@@ -181,6 +185,8 @@ while (!isOk) {
                 
                 // console.log(gameArr);
             }
+
+            colorIndex = colorIndex < colors.length - 1 ? colorIndex + 1 : 0;
 
         });
 
